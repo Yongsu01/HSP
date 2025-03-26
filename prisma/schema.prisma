@@ -6,3 +6,60 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model physical_infos {
+  id             BigInt   @id
+  user_id        BigInt
+  date           DateTime @db.DateTime(0)
+  body_fat_mass  Int
+  soft_lean_mass Int
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model users {
+  id            BigInt       @id
+  height        Int?
+  workout_level String       @db.Char(10)
+  gender        users_gender
+}
+
+model workout_categories {
+  id   BigInt                  @id
+  name workout_categories_name
+}
+
+model workout_detail_logs {
+  id             BigInt @id
+  workout_log_id BigInt
+  workout_id     BigInt
+  weight         Int    @default(0)
+  num_of_sets    Int    @default(1)
+  reps_per_set   Int    @default(1)
+}
+
+model workout_logs {
+  id      BigInt   @id
+  user_id BigInt
+  date    DateTime @db.DateTime(0)
+}
+
+model workouts {
+  id          BigInt        @id
+  category_id BigInt
+  name        workouts_name
+}
+
+enum workout_categories_name {
+  UPPER
+  LOWER @map(" LOWER")
+  CORE  @map(" CORE")
+}
+
+enum workouts_name {
+  DEADLIFT
+}
+
+enum users_gender {
+  M
+  F
+}
