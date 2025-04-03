@@ -1,5 +1,5 @@
 "use client";
-import KakaoLogin from "./moreinfo/components/KakaoLogin";
+import KakaoLogin from "./components/KakaoLogin";
 
 export default function Home() {
   return (
