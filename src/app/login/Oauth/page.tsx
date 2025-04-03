@@ -35,7 +35,7 @@ const OAuthLogin = () => {
     } else {
       router.push("/login");
     }
-  }, [code, router]);
+  }, []);
 
   async function getPrintCode(code: string) {
     const res = await axios.post("", code);
