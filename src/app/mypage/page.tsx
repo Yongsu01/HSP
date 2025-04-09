@@ -4,6 +4,7 @@ import Image from "next/image";
 import FitU from "../../../public/FITULOGO.svg";
 import Calender from "../../../public/Calendar.svg";
 import FitUChar from "../../../public/FITUChar.svg";
+import Profile from "../../../public/anonymous_profile_image.svg";
 import { useState } from "react";
 // 해야하는 일 1. useState 할당해서 입력받는 값 저장
 // 2. 성별 구분 불가한 익명 이미지 생성(마음에 안들어서 재생성중)
@@ -30,8 +31,8 @@ export default function Home() {
           <BodyInput name="골격근량" id="SMM" placeholder="kg" />
           <BodyInput name="체지방률" id="Body fat percentage" placeholder="%" />
         </div>
-        <div className="w-[40%] mr-10 border-2 border-solid border-black">
-          <Image src={FitU} alt="임시사진"></Image>
+        <div className="w-[40%] aspect-[4/3] mr-10">
+          <Image src={Profile} alt="임시사진" className="w-full h-full object-contain"></Image>
         </div>
       </div>
     </div>
