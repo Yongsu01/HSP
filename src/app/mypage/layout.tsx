@@ -1,19 +1,21 @@
 import { ReactNode } from "react";
-import Background from "../components/Background";
 import "@/app/globals.css";
+import HeaderCalender from "../components/HeaderCalender";
 
 export const metadata = {
   title: "Mypage",
 };
 
 interface RLayoutProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
-export default function RootLayout({ children }:RLayoutProps) { // children readonly 추가하기
+export default function RootLayout({ children }: RLayoutProps) {
   return (
-      <html>
-        <body>{children}</body>
-      </html>
+    <html>
+      <body>
+        <HeaderCalender>{children}</HeaderCalender>
+      </body>
+    </html>
   );
 }
