@@ -14,7 +14,7 @@ const OAuthLogin = () => {
       const fetchData = async () => {
         try {
           const response = await getPrintCode(code);
-
+            console.log(response);
           const jwtToken = response.headers["authorization"];
           if (jwtToken) sessionStorage.setItem("Authorization", jwtToken);
 
@@ -27,7 +27,6 @@ const OAuthLogin = () => {
             router.push("/");
           }
         } catch (error) {
-          console.error("OAuth 요청 중 오류 발생:", error);
         }
       };
 
@@ -38,7 +37,9 @@ const OAuthLogin = () => {
   }, []);
 
   async function getPrintCode(code: string) {
-    const res = await axios.post("", code);
+    const res = await axios.get("http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/auth/login/kakao", {
+      params: { code }
+    });
     return res;
   }
 
