@@ -14,10 +14,10 @@ interface SexDivProps {
             type="radio"
             id="male"
             name="sex"
-            value="MALE"
+            value="M"
             className="hidden peer"
-            checked={sex === "MALE"}
-            onChange={() => setSex("MALE")}
+            checked={sex === "M"}
+            onChange={() => setSex("M")}
           />
           <label
             htmlFor="male"
@@ -31,10 +31,10 @@ interface SexDivProps {
             type="radio"
             id="female"
             name="sex"
-            value="FEMALE"
+            value="F"
             className="hidden peer"
-            checked={sex === "FEMALE"}
-            onChange={() => setSex("FEMALE")}
+            checked={sex === "F"}
+            onChange={() => setSex("F")}
           />
           <label
             htmlFor="female"
