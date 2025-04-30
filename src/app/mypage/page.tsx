@@ -5,6 +5,8 @@ import Profile from "../../../public/anonymous_profile_image2.svg";
 import { useState } from "react";
 import ProfileImage from "./components/ProfileImage";
 import ProfileHistory from "./components/ProfileHistory";
+import LineChart from './components/BodyStatLineChart';
+
 
 export default function Home() {
   const [bodyData, setBodyData] = useState({
@@ -83,7 +85,11 @@ export default function Home() {
             />
           )}
         </div>
+
       </div>
+      <div className="w-full mt-20 px-10">
+        <LineChart />
+       </div>
     </div>
   );
 }
