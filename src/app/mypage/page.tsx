@@ -28,6 +28,7 @@ export default function Home() {
   const imageChange = (newImage: string) => {
     setProfileImg(newImage);
   };
+  const [showChartModal, setShowChartModal] = useState(false);
 
   return (
     <div className="w-full h-screen bg-[#4B4B4B] items-center justify-center">
@@ -85,11 +86,28 @@ export default function Home() {
             />
           )}
         </div>
-
       </div>
-      <div className="w-full mt-20 px-10">
-        <LineChart />
-       </div>
+      <div className="flex justify-end mr-10 pt-40">
+        <button
+          onClick={() => setShowChartModal(true)}
+          className="mt-4 px-5 py-3 bg-cyan-500 text-black rounded"
+        >
+          내 몸의 변화보기
+        </button>
+      </div>
+      {showChartModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white w-[90%] max-w-5xl p-6 rounded-lg relative">
+            <button
+              onClick={() => setShowChartModal(false)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl"
+            >
+              ✖
+            </button>
+            <LineChart />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

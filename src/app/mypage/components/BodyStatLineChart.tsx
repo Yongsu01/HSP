@@ -11,9 +11,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-// 더미데이터로 우선적으로 그래프 완성
-// 1. 백으로부터 받는 데이터로 출력 가능하게 만들기
-// 2. 새로운 페이지 혹은 모달창으로 한 화면을 꽉차게 적용(유사 대시보드)
+
 const data = [
   { date: '04-01', SMM: 28.8, bodyFat: 17.9 },
   { date: '04-02', SMM: 29.0, bodyFat: 18.3 },

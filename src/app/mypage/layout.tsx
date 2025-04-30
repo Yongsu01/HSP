@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import "@/app/globals.css";
 import HeaderCalender from "../components/HeaderCalender";
+import Background from "../components/Background";
 
 export const metadata = {
   title: "Mypage",
@@ -12,10 +13,9 @@ interface RLayoutProps {
 
 export default function RootLayout({ children }: RLayoutProps) {
   return (
-    <html>
-      <body>
-        <HeaderCalender>{children}</HeaderCalender>
-      </body>
-    </html>
+    <Background>
+      <HeaderCalender />
+      {children}
+    </Background>
   );
 }
