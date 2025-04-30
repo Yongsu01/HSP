@@ -29,6 +29,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ selected, onChange }) => {
 
   return (
     <div className="text-white flex flex-col gap-3 mt-4">
+        <p className=' text-[20px]'>분할</p>
     {BodyPart.map((part) => (
       <label
         key={part.value}
