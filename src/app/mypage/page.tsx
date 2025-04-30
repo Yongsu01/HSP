@@ -31,7 +31,7 @@ export default function Home() {
   const [showChartModal, setShowChartModal] = useState(false);
 
   return (
-    <div className="w-full h-screen bg-[#4B4B4B] items-center justify-center">
+    <div className="items-center justify-center">
       {/* 신체정보 입력과 프로필 사진 */}
       <div className="h-[35%] flex justify-between text-center">
         <div className="w-[40%] ml-10 border-2 border-solid border-black">

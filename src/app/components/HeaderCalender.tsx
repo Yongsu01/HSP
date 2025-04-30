@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FitU from "../../../public/FITULOGO.svg";
+import FitU from "../../../public/FITULOGO 2.png";
 import FitUChar from "../../../public/FITUChar.svg";
 import Calender from "../../../public/Calendar.svg";
 
