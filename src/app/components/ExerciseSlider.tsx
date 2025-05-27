@@ -1,0 +1,64 @@
+'use client';
+
+import React, { useRef } from 'react';
+import { useKeenSlider } from 'keen-slider/react';
+import 'keen-slider/keen-slider.min.css';
+import { Exercise } from '../types/exercise';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+interface Props {
+  exercises: Exercise[];
+}
+
+export default function ExerciseSlider({ exercises }: Props) {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const [sliderInstanceRef, slider] = useKeenSlider<HTMLDivElement>({
+    loop: true,
+    slides: {
+      origin: 'center',
+      perView: 1.1,
+      spacing: 16,
+    },
+  });
+
+  const prevSlide = () => {
+    slider.current?.prev();
+  };
+
+  const nextSlide = () => {
+    slider.current?.next();
+  };
+
+  return (
+    <div className="relative w-full h-screen flex items-center justify-center pt-[50px]">
+      <button
+        onClick={prevSlide}
+        className="absolute left-2 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
+      >
+        <ChevronLeft className="w-6 h-6 text-white" />
+      </button>
+
+      <div ref={(el) => {
+        sliderRef.current = el;
+        sliderInstanceRef(el);
+      }} className="keen-slider w-full">
+        {exercises.map((exercise) => (
+          <div
+            key={exercise.id}
+            className="keen-slider__slide flex flex-col items-center justify-center"
+          >
+            <div className="w-[80%] h-40 rounded-lg bg-gray-400" />
+            <p className="text-white mt-2">{exercise.name}</p>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
+      >
+        <ChevronRight className="w-6 h-6 text-white" />
+      </button>
+    </div>
+  );
+}
