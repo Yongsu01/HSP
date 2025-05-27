@@ -4,8 +4,8 @@ interface UserRoleProps {
   }
   
   const roles = [
-    { label: '트레이너', value: 'trainer' },
-    { label: '회원', value: 'member' },
+    { label: '트레이너', value: 'TRAINER' },
+    { label: '회원', value: 'MEMBER' },
   ];
   
   const UserRole: React.FC<UserRoleProps> = ({ userRole, setRole }) => {
