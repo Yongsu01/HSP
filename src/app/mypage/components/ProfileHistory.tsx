@@ -39,56 +39,56 @@ export default function ProfileHistory({ onClose, onImageChange }: historyProps)
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-    <div className="bg-white p-6 rounded-xl w-[90%] max-w-md text-center relative">
-      <button className="absolute top-3 right-4 text-2xl" onClick={onClose}>
-        ✕
-      </button>
+      <div className="bg-white p-6 rounded-xl w-[90%] max-w-md text-center relative">
+        <button className="absolute top-3 right-4 text-2xl" onClick={onClose}>
+          ✕
+        </button>
 
-      <div className="mt-8">
-        {images.length > 0 ? (
-          <Image
-            src={images[currentIndex]}
-            alt="이전 프로필 이미지"
-            width={300}
-            height={300}
-            className="mx-auto rounded-lg object-contain"
-          />
-        ) : (
-          <p className="text-gray-500 text-sm">이전 이미지가 없습니다.</p>
-        )}
+        <div className="mt-8">
+          {images.length > 0 ? (
+            <Image
+              src={images[currentIndex]}
+              alt="이전 프로필 이미지"
+              width={200}
+              height={200}
+              className="mx-auto rounded-lg object-cover w-[200px] h-[200px]"
+            />
+          ) : (
+            <p className="text-gray-500 text-sm">이전 이미지가 없습니다.</p>
+          )}
+        </div>
+
+        <div className="flex justify-between items-center mt-4 px-4">
+          <button
+            onClick={prevImage}
+            className="text-lg px-4 py-1 rounded hover:bg-gray-200"
+          >
+            ←
+          </button>
+
+          <button
+            onClick={handleUploadClick}
+            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+          >
+            사진 변경
+          </button>
+
+          <button
+            onClick={nextImage}
+            className="text-lg px-4 py-1 rounded hover:bg-gray-200"
+          >
+            →
+          </button>
+        </div>
+
+        <input
+          className="hidden"
+          type="file"
+          accept="image/*"
+          ref={imageInput}
+          onChange={imageChange}
+        />
       </div>
-
-      <div className="flex justify-between items-center mt-4 px-4">
-        <button
-          onClick={prevImage}
-          className="text-lg px-4 py-1 rounded hover:bg-gray-200"
-        >
-          ←
-        </button>
-
-        <button
-          onClick={handleUploadClick}
-          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-        >
-          사진 변경
-        </button>
-
-        <button
-          onClick={nextImage}
-          className="text-lg px-4 py-1 rounded hover:bg-gray-200"
-        >
-          →
-        </button>
-      </div>
-
-      <input
-        className="hidden"
-        type="file"
-        accept="image/*"
-        ref={imageInput}
-        onChange={imageChange}
-      />
     </div>
-  </div>
   );
 }
