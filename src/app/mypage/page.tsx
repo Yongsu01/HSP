@@ -5,8 +5,7 @@ import Profile from "../../../public/anonymous_profile_image2.svg";
 import { useState } from "react";
 import ProfileImage from "./components/ProfileImage";
 import ProfileHistory from "./components/ProfileHistory";
-import LineChart from './components/BodyStatLineChart';
-
+import LineChart from "./components/BodyStatLineChart";
 
 export default function Home() {
   const [bodyData, setBodyData] = useState({
@@ -16,54 +15,54 @@ export default function Home() {
     bodyFat: "",
   });
   const inputChange = (id: string, value: string) => {
-    const numeric = value.replace(/[^0-9.]/g, '');
+    const numeric = value.replace(/[^0-9.]/g, "");
     setBodyData((prev) => ({ ...prev, [id]: numeric }));
   };
 
-    const saveLogic = async () => {
-      const height = Number(bodyData.height) || 0;
-      const weight = Number(bodyData.weight) || 0;
-      const muscle = Number(bodyData.muscle) || 0;
-      const bodyFat = Number(bodyData.bodyFat) || 0;
+  const saveLogic = async () => {
+    const height = Number(bodyData.height) || 0;
+    const weight = Number(bodyData.weight) || 0;
+    const muscle = Number(bodyData.muscle) || 0;
+    const bodyFat = Number(bodyData.bodyFat) || 0;
 
-      const token = sessionStorage.getItem("Authorization");
+    const token = sessionStorage.getItem("Authorization");
 
-      try {
-        const response = await fetch(
-          "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              height: Number(bodyData.height),
-              weight: Number(bodyData.weight),
-              muscle: Number(bodyData.muscle),
-              bodyFat: Number(bodyData.bodyFat),
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("저장 실패");
+    try {
+      const response = await fetch(
+        "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            height,
+            weight,
+            muscle,
+            bodyFat,
+          }),
         }
-        alert("수정 완료되었습니다!");
-        console.log("저장된 데이터:", { height, weight, muscle, bodyFat });
-      } catch (error) {
-        console.error("저장 에러:", error);
-        alert("저장에 실패했습니다.");
-      }
-    };
+      );
 
-  const [profileImg, setProfileImg] = useState<string>(
-    Profile as unknown as string
-  ); // 초기 이미지
+      if (!response.ok) {
+        throw new Error("저장 실패");
+      }
+      alert("수정 완료되었습니다!");
+      console.log("저장된 데이터:", { height, weight, muscle, bodyFat });
+    } catch (error) {
+      console.error("저장 에러:", error);
+      alert("저장에 실패했습니다.");
+    }
+  };
+
+  // 초기 이미지가 객체이므로 .src를 꼭 써줘야 함
+  const [profileImg, setProfileImg] = useState<string>(Profile.src);
   const [showHistory, setShowHistory] = useState(false);
   const imageChange = (newImage: string) => {
     setProfileImg(newImage);
   };
+
   const [showChartModal, setShowChartModal] = useState(false);
 
   return (
@@ -108,6 +107,7 @@ export default function Home() {
             수정하기
           </button>
         </div>
+
         {/* 프로필 이미지 */}
         <div className="w-[200px] h-[200px] ml-4 mt-10">
           <ProfileImage
@@ -122,6 +122,7 @@ export default function Home() {
           )}
         </div>
       </div>
+
       <div className="flex justify-end w-full px-4 mt-6">
         <button
           onClick={() => setShowChartModal(true)}
@@ -130,6 +131,7 @@ export default function Home() {
           내 몸의 변화보기
         </button>
       </div>
+
       {showChartModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white w-[90%] max-w-5xl p-6 rounded-lg relative">

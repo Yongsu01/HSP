@@ -24,17 +24,6 @@ export default function BodyInput({
     const raw = e.target.value.replace(/[^0-9]/g, ""); // raw 데이터 - 숫자만 추출한 문자열을 숫자의 형식으로만 받도록 하고
     setValue(raw);
     onChange?.(id, raw);
-    // if (raw) {
-    //   // raw가 있으면 raw에 unit 붙여서 출력
-    //   const finalValue = `${raw}${unit}`;
-    //   //   setValue(`${raw}${unit}`);
-    //   setValue(raw);
-    //   onChange?.(id, raw);
-    // } else {
-    //   // raw가 없으면 공백으로 두기!
-    //   setValue("");
-    //   onChange?.(name, "");
-    // }
   };
   return (
     <div className="flex items-center justify-between py-2">
