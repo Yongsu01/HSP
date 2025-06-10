@@ -1,19 +1,18 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { Exercise } from '@/app/types/exercise';
 
-interface WorkoutStore {
-  recommendations: any;
-  setRecommendations: (data: any) => void;
+interface WorkoutState {
+  recommendations: any[];
+  setRecommendations: (recommendations: any[]) => void;
+
+  selectedExercises: Exercise[];
+  setSelectedExercises: (exercises: Exercise[]) => void;
 }
 
-export const useWorkoutStore = create<WorkoutStore>()(
-  persist(
-    (set) => ({
-      recommendations: null,
-      setRecommendations: (data) => set({ recommendations: data }),
-    }),
-    {
-      name: 'workout-storage', 
-    }
-  )
-);
+export const useWorkoutStore = create<WorkoutState>((set) => ({
+  recommendations: [],
+  setRecommendations: (recommendations) => set({ recommendations }),
+
+  selectedExercises: [],
+  setSelectedExercises: (exercises) => set({ selectedExercises: exercises }),
+}));

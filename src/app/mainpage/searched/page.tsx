@@ -1,12 +1,16 @@
-'use client';
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import ExerciseSlider from '../../components/ExerciseSlider';
-import { Exercise } from '../../types/exercise';
-import { useWorkoutStore } from '@/app/store/useStore';
+"use client";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import ExerciseSlider from "../../components/ExerciseSlider";
+import { Exercise } from "../../types/exercise";
+import { useWorkoutStore } from "@/app/store/useStore";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const recommendations = useWorkoutStore((state) => state.recommendations);
-
+  const router = useRouter();
+  const setSelectedExercisesInStore = useWorkoutStore(
+    (state) => state.setSelectedExercises
+  );
   const groupedExercises: Exercise[][] = useMemo(() => {
     if (!recommendations) return [];
 
@@ -14,14 +18,14 @@ export default function Home() {
       const mainExercise: Exercise = {
         id: `main-${index}`,
         name: item.mainWorkout,
-        imageUrl: '',
+        imageUrl: "",
       };
 
       const similarExercises: Exercise[] = item.similarWorkouts.map(
         (workout: string, subIndex: number) => ({
           id: `similar-${index}-${subIndex}`,
           name: workout,
-          imageUrl: '',
+          imageUrl: "",
         })
       );
 
@@ -29,12 +33,13 @@ export default function Home() {
     });
   }, [recommendations]);
 
-  const [selectedExercises, setSelectedExercises] = useState<(Exercise | null)[]>([]);
-
+  const [selectedExercises, setSelectedExercises] = useState<
+    (Exercise | null)[]
+  >([]);
 
   useEffect(() => {
     if (groupedExercises.length > 0) {
-    setSelectedExercises(groupedExercises.map((group) => group[0]));
+      setSelectedExercises(groupedExercises.map((group) => group[0]));
     }
   }, [groupedExercises]);
 
@@ -62,10 +67,10 @@ export default function Home() {
       <button
         className="bg-[#E45258] h-[40px] w-[250px] text-white font-bold rounded flex items-center justify-center pt-[20px] pb-[20px] mt-[50px]"
         onClick={() => {
-              const selectedNames = selectedExercises
-      .filter((ex): ex is Exercise => ex !== null) // null 제거
-      .map((ex) => ex.name);
-          console.log('확정된 운동들:', selectedNames);
+          setSelectedExercisesInStore(
+            selectedExercises.filter((ex): ex is Exercise => ex !== null)
+          );
+          router.push("/exercise");
         }}
       >
         확정하기
