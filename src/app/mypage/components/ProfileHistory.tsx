@@ -3,10 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import ProfileCropper from "./ProfileCropper";
 
-type ProfileHistoryProps = {
+interface ProfileHistoryProps {
   onClose: () => void;
   onImageChange: (img: string) => void;
-};
+}
 
 export default function ProfileHistory({ onClose, onImageChange }: ProfileHistoryProps) {
   const [showCropper, setShowCropper] = useState(false);
@@ -14,15 +14,33 @@ export default function ProfileHistory({ onClose, onImageChange }: ProfileHistor
   const [historyImages, setHistoryImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 프로필 히스토리 저장/로드
+  const API_BASE = "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080";
+
   useEffect(() => {
-    const stored = localStorage.getItem("profileHistory");
-    if (stored) {
-      setHistoryImages(JSON.parse(stored));
-    }
+    const fetchHistory = async () => {
+      const token = sessionStorage.getItem("Authorization");
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/body-image/history`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error("히스토리 불러오기 실패");
+
+        const data = await res.json();
+        const urls = data.map((item: any) => item.url);
+        setHistoryImages(urls);
+      } catch (err) {
+        console.error("프로필 히스토리 에러:", err);
+      }
+    };
+
+    fetchHistory();
   }, []);
 
-  // (사진)파일 업로드
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -37,24 +55,43 @@ export default function ProfileHistory({ onClose, onImageChange }: ProfileHistor
     }
   };
 
-  // 크롭 취소 시
   const handleCropCancel = () => {
     setShowCropper(false);
     setSelectedImage(null);
   };
 
-  // 크롭 성공/완료 시
-  const handleCropComplete = (croppedImage: string) => {
-    // 저장
-    const updated = [croppedImage, ...historyImages].slice(0, 10); // 최근 몇개까지 유지할 수 있게 (우선은 10개로)
-    localStorage.setItem("profileHistory", JSON.stringify(updated));
-    setHistoryImages(updated);
+  const handleCropComplete = async (croppedImage: string) => {
+    const token = sessionStorage.getItem("Authorization");
+    if (!token) return;
 
-    // 전달
-    onImageChange(croppedImage);
-    setShowCropper(false);
-    setSelectedImage(null);
-    onClose();
+    try {
+      // base64 -> Blob -> FormData
+      const blob = await (await fetch(croppedImage)).blob();
+      const formData = new FormData();
+      formData.append("image", blob, "profile.jpg");
+
+      const res = await fetch(`${API_BASE}/body-image`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("이미지 업로드 실패");
+
+      const data = await res.json();
+      const newUrl = data.imageUrl;
+      const updated = [newUrl, ...historyImages].slice(0, 10);
+      setHistoryImages(updated);
+      onImageChange(newUrl);
+      onClose();
+    } catch (err) {
+      console.error("이미지 업로드 에러:", err);
+    } finally {
+      setShowCropper(false);
+      setSelectedImage(null);
+    }
   };
 
   return (
@@ -83,7 +120,6 @@ export default function ProfileHistory({ onClose, onImageChange }: ProfileHistor
             이미지 업로드
           </button>
 
-          {/* 이전 이미지 */}
           {historyImages.length > 0 && (
             <div className="mt-4">
               <h3 className="text-sm text-gray-700 mb-2">이전 이미지</h3>

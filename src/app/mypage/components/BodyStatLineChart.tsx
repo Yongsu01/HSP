@@ -21,7 +21,7 @@ export default function BodyStatLineChart() {
       try {
         const token = sessionStorage.getItem("Authorization");
         const startDate = "2025-04-01";
-        const endDate = "2025-06-10"; // 시작 끝 날짜를 자동적으로 업데이트하게 수정이 필요할 것 같음 흠
+        const endDate = "2025-06-11"; // 시작 끝 날짜를 자동적으로 업데이트하게 수정이 필요할 것 같음 흠
 
         const url = `http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos/muscle-bodyfat?startDate=${startDate}&endDate=${endDate}`;
 

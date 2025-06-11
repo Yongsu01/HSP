@@ -2,7 +2,7 @@
 
 import BodyInput from "./components/BodyInput";
 import Profile from "../../../public/anonymous_profile_image2.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProfileImage from "./components/ProfileImage";
 import ProfileHistory from "./components/ProfileHistory";
 import LineChart from "./components/BodyStatLineChart";
@@ -56,7 +56,7 @@ export default function Home() {
     }
   };
 
-  // 초기 이미지가 객체이므로 .src를 꼭 써줘야 함
+  // 초기 이미지가 객체라서 .src를 꼭 써줘야 함
   const [profileImg, setProfileImg] = useState<string>(Profile.src);
   const [showHistory, setShowHistory] = useState(false);
   const imageChange = (newImage: string) => {
@@ -64,6 +64,34 @@ export default function Home() {
   };
 
   const [showChartModal, setShowChartModal] = useState(false);
+  useEffect(() => {
+    const fetchLatestProfileImage = async () => {
+      const token = sessionStorage.getItem("Authorization");
+      if (!token) return;
+
+      try {
+        const res = await fetch("http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/body-image", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) throw new Error("이미지를 불러오는 데 실패했습니다.");
+        const data = await res.json();
+
+        if (data.imageUrl && typeof data.imageUrl === "string") {
+          setProfileImg(data.imageUrl);
+        } else {
+          // 이미지가 없으면 처음 이미지를 유지하도록 -> alt가 자꾸 뜨는 문제가 있어 예외처리 함
+          setProfileImg(Profile.src);
+        }
+      } catch (err) {
+        console.error("프로필 이미지 불러오기 에러:", err);
+        setProfileImg(Profile.src);
+      }
+    };
+
+    fetchLatestProfileImage();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen justify-start px-4">
