@@ -1,61 +1,80 @@
+"use client";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import ExerciseSlider from "../../components/ExerciseSlider";
 import { Exercise } from "../../types/exercise";
+import { useWorkoutStore } from "@/app/store/useStore";
+import { useRouter } from "next/navigation";
 
-export default async function Home() {
+export default function Home() {
+  const recommendations = useWorkoutStore((state) => state.recommendations);
+  const router = useRouter();
+  const setSelectedExercisesInStore = useWorkoutStore(
+    (state) => state.setSelectedExercises
+  );
+  const groupedExercises: Exercise[][] = useMemo(() => {
+    if (!recommendations) return [];
 
-const dummyData: Exercise[][] = [
-  [
-    { id: '1', name: '운동명1', imageUrl: '' },
-    { id: '2', name: '운동명2', imageUrl: '' },
-    { id: '3', name: '운동명1', imageUrl: '' },
-    { id: '4', name: '운동명2', imageUrl: '' }
-  ],
-  [
-    { id: '5', name: '운동명3', imageUrl: '' },
-    { id: '6', name: '운동명4', imageUrl: '' },
-    { id: '7', name: '운동명1', imageUrl: '' },
-    { id: '8', name: '운동명2', imageUrl: '' },
-    { id: '9', name: '운동명1', imageUrl: '' },
-    { id: '10', name: '운동명2', imageUrl: '' }
-  ],
-  [
-    { id: '11', name: '운동명5', imageUrl: '' },
-    { id: '12', name: '운동명6', imageUrl: '' },
-    { id: '13', name: '운동명1', imageUrl: '' },
-    { id: '14', name: '운동명2', imageUrl: '' },
-    { id: '15', name: '운동명1', imageUrl: '' },
-    { id: '16', name: '운동명2', imageUrl: '' }
-  ],
-  [
-    { id: '17', name: '운동명5', imageUrl: '' },
-    { id: '18', name: '운동명6', imageUrl: '' },
-    { id: '19', name: '운동명1', imageUrl: '' },
-    { id: '20', name: '운동명2', imageUrl: '' },
-    { id: '21', name: '운동명1', imageUrl: '' },
-    { id: '22', name: '운동명2', imageUrl: '' }
-  ],
-  [
-    { id: '23', name: '운동명5', imageUrl: '' },
-    { id: '24', name: '운동명6', imageUrl: '' },
-    { id: '25', name: '운동명1', imageUrl: '' },
-    { id: '26', name: '운동명2', imageUrl: '' },
-    { id: '27', name: '운동명1', imageUrl: '' },
-    { id: '28', name: '운동명2', imageUrl: '' }
-  ],
-];
+    return recommendations.map((item: any, index: number) => {
+      const mainExercise: Exercise = {
+        id: `main-${index}`,
+        name: item.mainWorkout,
+        imageUrl: "",
+      };
 
+      const similarExercises: Exercise[] = item.similarWorkouts.map(
+        (workout: string, subIndex: number) => ({
+          id: `similar-${index}-${subIndex}`,
+          name: workout,
+          imageUrl: "",
+        })
+      );
 
-  const groupedExercises = dummyData;
+      return [mainExercise, ...similarExercises];
+    });
+  }, [recommendations]);
+
+  const [selectedExercises, setSelectedExercises] = useState<
+    (Exercise | null)[]
+  >([]);
+
+  useEffect(() => {
+    if (groupedExercises.length > 0) {
+      setSelectedExercises(groupedExercises.map((group) => group[0]));
+    }
+  }, [groupedExercises]);
+
+  const handleSelectExercise = useCallback(
+    (sliderIndex: number, exercise: Exercise) => {
+      setSelectedExercises((prev) => {
+        const newSelected = [...prev];
+        newSelected[sliderIndex] = exercise;
+        return newSelected;
+      });
+    },
+    []
+  );
 
   return (
-<>
-      {groupedExercises.map((group, index) => (
-        <ExerciseSlider key={index} exercises={group} />
+    <>
+      {groupedExercises.map((group: Exercise[], index: number) => (
+        <ExerciseSlider
+          key={index}
+          exercises={group}
+          onSelect={(exercise) => handleSelectExercise(index, exercise)}
+        />
       ))}
-      <button className="bg-[#E45258] h-[40px] w-[250px] text-white font-bold rounded flex items-center justify-center pt-[20px] pb-[20px] mt-[50px]">
-  확정하기
-</button>
 
-</>
+      <button
+        className="bg-[#E45258] h-[40px] w-[250px] text-white font-bold rounded flex items-center justify-center pt-[20px] pb-[20px] mt-[50px]"
+        onClick={() => {
+          setSelectedExercisesInStore(
+            selectedExercises.filter((ex): ex is Exercise => ex !== null)
+          );
+          router.push("/exercise");
+        }}
+      >
+        확정하기
+      </button>
+    </>
   );
 }

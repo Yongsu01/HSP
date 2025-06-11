@@ -1,33 +1,39 @@
 'use client';
-
-import React, { useRef } from 'react';
-import { useKeenSlider } from 'keen-slider/react';
-import 'keen-slider/keen-slider.min.css';
-import { Exercise } from '../types/exercise';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import { Exercise } from "../types/exercise";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Props {
   exercises: Exercise[];
+  onSelect?: (selectedExercise: Exercise) => void;
 }
 
-export default function ExerciseSlider({ exercises }: Props) {
-  const sliderRef = useRef<HTMLDivElement | null>(null);
-  const [sliderInstanceRef, slider] = useKeenSlider<HTMLDivElement>({
+export default function ExerciseSlider({ exercises, onSelect }: Props) {
+  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     loop: true,
     slides: {
-      origin: 'center',
+      origin: "center",
       perView: 1.1,
       spacing: 16,
     },
+    slideChanged(s) {
+      const idx = s.track.details.rel;
+      onSelect && onSelect(exercises[idx]);
+    },
   });
 
-  const prevSlide = () => {
-    slider.current?.prev();
-  };
+  useEffect(() => {
+    if (exercises.length > 0) {
+      onSelect && onSelect(exercises[0]);
+    }
+  }, []);
 
-  const nextSlide = () => {
-    slider.current?.next();
-  };
+  console.log("자식 렌더링");
+
+  const prevSlide = () => slider.current?.prev();
+  const nextSlide = () => slider.current?.next();
 
   return (
     <div className="relative w-full h-screen flex items-center justify-center pt-[50px]">
@@ -38,10 +44,7 @@ export default function ExerciseSlider({ exercises }: Props) {
         <ChevronLeft className="w-6 h-6 text-white" />
       </button>
 
-      <div ref={(el) => {
-        sliderRef.current = el;
-        sliderInstanceRef(el);
-      }} className="keen-slider w-full">
+      <div ref={sliderRef} className="keen-slider w-full">
         {exercises.map((exercise) => (
           <div
             key={exercise.id}
