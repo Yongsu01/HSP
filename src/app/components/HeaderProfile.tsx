@@ -5,10 +5,10 @@ import PerSonIcon from "../../../public/PersonIcon.svg"
 
 export default function HeaderProfile() {
   return (
-      <div className="w-full flex justify-between items-start pr-[15px] px-[15px]">
-        <Image src={FitU} alt="FitU logo" className=" w-[40px] h-[40px]" />
-        <Image src={FitUChar} alt="FITU" />
-        <Image src={PerSonIcon} alt="Calendar icon" className=" w-[40px] h-[40px]" />
-      </div>
+    <div className="w-full flex justify-between items-start pr-[15px] px-[15px]">
+      <Image src={FitU} alt="FitU logo" className=" w-[40px] h-[40px]" />
+      <Image src={FitUChar} alt="FITU" />
+      <Image src={PerSonIcon} alt="Person icon" className=" w-[40px] h-[40px]" />
+    </div>
   );
 }

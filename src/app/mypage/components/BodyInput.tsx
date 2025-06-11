@@ -7,8 +7,8 @@ type BodyInputProps = {
   id: string;
   placeholder?: string;
   unit?: string;
-  onChange: (name: string, value: string) => void;
-  // !!아무것도 반환하지 않고 name value를 받아서 부모에 전달하는 콜백 함수
+  onChange: (id: string, value: string) => void;
+  // !!아무것도 반환하지 않고 id value를 받아서 부모에 전달하는 콜백 함수
 };
 
 export default function BodyInput({
@@ -22,29 +22,21 @@ export default function BodyInput({
 
   const bodyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/[^0-9]/g, ""); // raw 데이터 - 숫자만 추출한 문자열을 숫자의 형식으로만 받도록 하고
-    if (raw) {
-      // raw가 있으면 raw에 unit 붙여서 출력
-      const finalValue = `${raw}${unit}`;
-      //   setValue(`${raw}${unit}`);
-      setValue(finalValue);
-      onChange?.(name, finalValue);
-    } else {
-      // raw가 없으면 공백으로 두기!
-      setValue("");
-      onChange?.(name, "");
-    }
+    setValue(raw);
+    onChange?.(id, raw);
   };
   return (
-    <div className="flex items-center space-x-5 h-[19%]">
-      <span className="w-[50%] text-xl">{name}</span>
+    <div className="flex items-center justify-between py-2">
+      <span className="w-[45%] text-base">{name}</span>
       <input
         id={id}
-        type="text" // number로 설정 시, 숫자만 입력받도록 간단히 가능하지만 단위 unit (cm, kg, %)을 붙일 수 없음!
+        type="text"
         value={value}
         onChange={bodyChange}
         placeholder={placeholder}
-        className="input w-[50%] bg-[#4B4B4B]"
+        className="input w-[50%] bg-[#4B4B4B] p-1 rounded text-white text-sm"
       />
+      {unit && <span className="ml-1 text-white">{unit}</span>}
     </div>
   );
 }
