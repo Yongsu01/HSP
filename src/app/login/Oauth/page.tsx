@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import { Param } from "@prisma/client/runtime/library";
+
 
 const OAuthLogin = () => {
   const router = useRouter();
@@ -46,7 +46,11 @@ const OAuthLogin = () => {
     return res;
   }
 
-  return <div>로딩중...</div>;
+  return (
+     <div className="flex items-center justify-center h-screen">
+      <div className="w-12 h-12 border-4 border-[#E45258] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 };
 
 export default OAuthLogin;

@@ -39,7 +39,7 @@ export default function ExerciseSlider({ exercises, onSelect }: Props) {
     <div className="relative w-full h-screen flex items-center justify-center pt-[50px]">
       <button
         onClick={prevSlide}
-        className="absolute left-2 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
+        className="absolute left-5 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
       >
         <ChevronLeft className="w-6 h-6 text-white" />
       </button>
@@ -50,15 +50,17 @@ export default function ExerciseSlider({ exercises, onSelect }: Props) {
             key={exercise.id}
             className="keen-slider__slide flex flex-col items-center justify-center"
           >
-            <div className="w-[80%] h-40 rounded-lg bg-gray-400" />
-            <p className="text-white mt-2">{exercise.name}</p>
+            <div className="w-[65%] aspect-square rounded-lg bg-gray-400 overflow-hidden">
+              <img src={exercise.imageUrl} className="w-full h-full"/>
+            </div>
+            <p className="mt-2 absolute bottom-0 font-semibold bg-white">{exercise.name}</p>
           </div>
         ))}
       </div>
 
       <button
         onClick={nextSlide}
-        className="absolute right-2 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
+        className="absolute right-5 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full"
       >
         <ChevronRight className="w-6 h-6 text-white" />
       </button>
