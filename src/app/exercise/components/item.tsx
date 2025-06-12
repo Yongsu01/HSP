@@ -13,7 +13,7 @@ const Item = ({ name, imageurl }: ItemProps) => {
   const handleClick = () => {
     console.log("CLicked")
     router.push(
-      `/exercise/detail?name=${encodeURIComponent(name)}&imageurl=${encodeURIComponent(imageurl)}`
+      `/exercise/detail?name=${encodeURIComponent(name)}&gif=${encodeURIComponent(imageurl)}`
     );
   };
 
@@ -22,7 +22,7 @@ const Item = ({ name, imageurl }: ItemProps) => {
       className="flex w-full flex-col items-center pt-5 cursor-pointer"
       onClick={handleClick}
     >
-      <img className="w-[80%] h-[160px]"/>
+      <img className="w-[60%] aspect-square rounded-lg" src={imageurl}/>
       <h3>{name}</h3>
     </div>
   );
