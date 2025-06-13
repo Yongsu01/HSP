@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const token = sessionStorage.getItem("authorization")
+
   useEffect(()=>{
+    const token = sessionStorage.getItem("authorization")
     if(token){
-      router.push('/main');
+      router.push('/mainpage');
     }else{
       router.push('/login');
     }
