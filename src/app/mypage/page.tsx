@@ -78,12 +78,16 @@ export default function Home() {
         if (!res.ok) throw new Error("이미지를 불러오는 데 실패했습니다.");
         const data = await res.json();
 
-        if (data.imageUrl && typeof data.imageUrl === "string") {
-          setProfileImg(data.imageUrl);
-        } else {
-          // 이미지가 없으면 처음 이미지를 유지하도록 -> alt가 자꾸 뜨는 문제가 있어 예외처리 함
-          setProfileImg(Profile.src);
-        }
+        setProfileImg(
+          typeof data.imageUrl === "string" && data.imageUrl.trim()
+            ? data.imageUrl : Profile.src
+        );
+        // 이미지가 없으면 처음 이미지를 유지하도록 -> alt가 자꾸 뜨는 문제가 있어 예외처리 함 -> if문에서 삼항연산자로 수정완료
+        // if (data.imageUrl && typeof data.imageUrl === "string") {
+        //   setProfileImg(data.imageUrl);
+        // } else {
+        //   setProfileImg(Profile.src);
+        // }
       } catch (err) {
         console.error("프로필 이미지 불러오기 에러:", err);
         setProfileImg(Profile.src);
