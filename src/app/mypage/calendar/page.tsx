@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Calendar from '../components/Calendar';
+import BackButton from '@/app/components/BackButton';
 
 export type WorkoutDetail = {
   name: string;
@@ -65,6 +66,7 @@ export default function CalendarPage() {
 
   return (
     <div className="min-h-screen p-4">
+      <BackButton />
       <Calendar month={month} onMonthChange={setMonth} records={records} />
     </div>
   );
