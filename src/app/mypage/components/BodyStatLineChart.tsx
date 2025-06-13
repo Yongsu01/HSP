@@ -20,8 +20,8 @@ export default function BodyStatLineChart() {
     const fetchChartData = async () => {
       try {
         const token = sessionStorage.getItem("Authorization");
-        const startDate = "2025-04-01";
-        const endDate = "2025-06-13"; // 시작 끝 날짜를 자동적으로 업데이트하게 수정이 필요할 것 같음 흠
+        const startDate = dayjs().subtract(3, 'month').format('YYYY-MM-DD');
+        const endDate = dayjs().format('YYYY-MM-DD');
 
         const url = `http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos/muscle-bodyfat?startDate=${startDate}&endDate=${endDate}`;
 
