@@ -33,7 +33,7 @@ export default function CalendarPage() {
         const monthNum = month.getMonth() + 1;
 
         const response = await fetch(
-          `http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/api/workout/calendar/full?year=${year}&month=${monthNum}`,
+          `https://hanseifitu.shop/api/workout/calendar/full?year=${year}&month=${monthNum}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

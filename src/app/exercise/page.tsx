@@ -26,7 +26,7 @@ const Exercise = () => {
     );
     try {
       const res = await axios.post(
-        "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/api/workout-detail-logs",
+        "https://hanseifitu.shop/api/workout-detail-logs",
         {
           workoutList: transformedWorkoutResults,
         },

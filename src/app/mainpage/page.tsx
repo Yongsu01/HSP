@@ -17,7 +17,7 @@ const MainPage: React.FC = () => {
     if (token !== null) {
       try {
         const res = await axios.post(
-          "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/workout/recommendations",
+          "https://hanseifitu.shop/workout/recommendations",
           {
             workoutCategoryList: exerciseArea,
           },

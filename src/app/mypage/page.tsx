@@ -21,7 +21,7 @@ export default function Home() {
       if (token !== null) {
         try {
           const res = await fetch(
-            "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos",
+            "https://hanseifitu.shop/physical-infos",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos",
+        "https://hanseifitu.shop/physical-infos",
         {
           method: "POST",
           headers: {
@@ -102,7 +102,7 @@ export default function Home() {
       if (!token) return;
 
       try {
-        const res = await fetch("http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/body-image", {
+        const res = await fetch("https://hanseifitu.shop/body-image", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
