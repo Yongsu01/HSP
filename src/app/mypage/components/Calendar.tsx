@@ -6,9 +6,17 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import './CalendarCustom.css';
 
+type WorkoutDetail = {
+  name: string;
+  categoryId: number;
+  sets: number;
+  weight: number;
+  repsPerSet: number;
+};
+
 type WorkoutRecord = {
   date: string;
-  workout: string[];
+  workout: WorkoutDetail[];
 };
 
 type CalendarProps = {
@@ -21,9 +29,9 @@ export default function Calendar({ records, month, onMonthChange }: CalendarProp
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   // 날짜 → 운동 기록 매핑
-  const recordsMap = new Map<string, string[]>();
+  const recordsMap = new Map<string, WorkoutDetail[]>();
   records.forEach(({ date, workout }) => {
-    recordsMap.set(date, workout.slice(0, 80));
+    recordsMap.set(date, workout);
   });
 
   // 이번 달 날짜 리스트 생성
@@ -64,15 +72,15 @@ export default function Calendar({ records, month, onMonthChange }: CalendarProp
         />
       </div>
 
-      {/* 선택된 날짜의 운동기록을 출력 */}
+      {/* 선택된 날짜의 운동기록 출력 */}
       {selectedDate && (
         <div className="mt-6 w-full max-w-md bg-white rounded-lg shadow p-4 text-center">
-          <p className="font-semibold mb-2">선택한 날짜: {selectedKey}</p>
+          <p className="font-semibold mb-2">선택한 날짜 : {selectedKey}</p>
           {selectedWorkouts.length > 0 ? (
             <ul className="space-y-1">
               {selectedWorkouts.map((item, index) => (
                 <li key={index} className="text-sm text-gray-700">
-                  • {item}
+                  • {item.name} - {item.sets}세트, {item.weight}kg, {item.repsPerSet}회
                 </li>
               ))}
             </ul>

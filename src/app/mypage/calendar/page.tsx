@@ -14,7 +14,7 @@ export type WorkoutDetail = {
 
 export type WorkoutRecord = {
   date: string;
-  workout: string[];
+  workout: WorkoutDetail[];
 };
 
 export default function CalendarPage() {
@@ -47,7 +47,7 @@ export default function CalendarPage() {
 
         const formatted: WorkoutRecord[] = rawData.map((item) => ({
           date: item.date,
-          workout: item.details.map((d) => d.name.slice(0, 20)), // 운동기록 이름 최대 글자수 제한 -> 조절하면 됨!
+          workout: item.details,
         }));
 
         setRecords(formatted);
