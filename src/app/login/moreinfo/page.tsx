@@ -45,7 +45,7 @@ const Home: React.FC = () => {
         <SexDiv sex={sex} setSex={setSex} />
         <UserRole userRole={userRole} setRole={setRole} />
       </div>
-      <button className="absolute bottom-[150px] left-0 right-0 mx-auto bg-[#E45258] h-[40px] text-white font-bold w-[250px] rounded"
+      <button className="mt-9 bg-[#E45258] h-[40px] text-white font-bold w-[250px] rounded"
       onClick={signupHandler}>
     회원가입하기
   </button>
