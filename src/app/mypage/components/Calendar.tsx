@@ -54,7 +54,7 @@ export default function Calendar({ records, month, onMonthChange }: CalendarProp
 
   return (
     <div className="min-h-screen p-4 flex flex-col items-center">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md px-4">
         <DayPicker
           mode="single"
           month={month}
@@ -74,10 +74,10 @@ export default function Calendar({ records, month, onMonthChange }: CalendarProp
 
       {/* 선택된 날짜의 운동기록 출력 */}
       {selectedDate && (
-        <div className="mt-6 w-full max-w-md bg-white rounded-lg shadow p-4 text-center">
+        <div className="mt-6 w-full max-w-md bg-white rounded-lg shadow p-4 text-center px-4">
           <p className="font-semibold mb-2">선택한 날짜 : {selectedKey}</p>
           {selectedWorkouts.length > 0 ? (
-            <ul className="space-y-1">
+            <ul className="space-y-1 text-left">
               {selectedWorkouts.map((item, index) => (
                 <li key={index} className="text-sm text-gray-700">
                   • {item.name} - {item.sets}세트, {item.weight}kg, {item.repsPerSet}회
