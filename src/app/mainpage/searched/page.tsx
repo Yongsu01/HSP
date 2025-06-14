@@ -65,7 +65,7 @@ const handleSubject = async () => {
 
   try {
     const res = await axios.post(
-      "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/workout/gifs",
+      "https://hanseifitu.shop/workout/gifs",
       { workouts: payload },
       {
         headers: {

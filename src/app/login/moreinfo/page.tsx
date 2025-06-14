@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   const signupHandler = async () => {
     const token = sessionStorage.getItem("Authorization");
     try {
-      const response = await axios.post("http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/user/profile?userId=12",
+      const response = await axios.post("https://hanseifitu.shop/user/profile?userId=12",
         {height: height,
           gender: sex,
           role: userRole,
