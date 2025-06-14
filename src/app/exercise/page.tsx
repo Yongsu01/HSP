@@ -20,7 +20,7 @@ const Exercise = () => {
       ({ name, weight, sets, reps }) => ({
         workoutName: name,
         weight,
-        numOfSet: sets,
+        numOfSets: sets,
         repsPerSet: reps,
       })
     );
