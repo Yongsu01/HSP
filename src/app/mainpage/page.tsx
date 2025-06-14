@@ -50,7 +50,7 @@ const MainPage: React.FC = () => {
       </p>
       <SelectBox selected={exerciseArea} onChange={setExerciseArea} />
       <button
-        className="absolute bottom-[80px] left-0 right-0 mx-auto bg-[#E45258] h-[40px] text-white font-bold w-[250px] rounded"
+        className="mt-9 mb-9 p-[8px] bg-[#E45258] text-white font-bold w-[250px] rounded"
         onClick={handleSearch}
       >
         조회하기
