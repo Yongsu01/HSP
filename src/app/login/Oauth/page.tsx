@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import OAuthLogin from "./OauthLogin";
 
-export default function DetailPage() {
+export default function Home() {
   return (
     <Suspense>
       <OAuthLogin />
