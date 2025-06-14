@@ -187,21 +187,19 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-end w-full px-4 mt-6">
-        <button
-          onClick={() => setShowChartModal(true)}
-          className="fixed bottom-20 right-4 px-5 py-3 bg-cyan-500 text-black rounded z-50"
-        >
-          내 몸의 변화보기
-        </button>
-      </div>
+      <button
+        onClick={() => setShowChartModal(true)}
+        className="fixed bottom-20 right-4 px-5 py-3 bg-cyan-500 text-black rounded z-50"
+      >
+        내 몸의 변화보기
+      </button>
 
       {showChartModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white w-[90%] max-w-5xl p-6 rounded-lg relative">
+          <div className="bg-white w-[90%] max-w-5xl pt-[50px] pr-[20px] pb-[20px] rounded-lg relative">
             <button
               onClick={() => setShowChartModal(false)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl"
+              className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl"
             >
               ✖
             </button>

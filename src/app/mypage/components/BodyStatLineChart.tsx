@@ -53,11 +53,11 @@ export default function BodyStatLineChart() {
   }, []);
 
   return (
-    <div className="w-full h-[300px]">
+    <div className="w-full h-[380px]">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="date" />
+          <XAxis dataKey="date" tick={{fontSize: 12}} angle={-40} height={55} textAnchor="end" />
           <YAxis />
           <Tooltip />
           <Legend />
