@@ -14,7 +14,6 @@ const MainPage: React.FC = () => {
 
   const handleSearch = async () => {
     const token = sessionStorage.getItem("Authorization");
-    console.log(token);
     if (token !== null) {
       try {
         const res = await axios.post(

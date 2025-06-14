@@ -14,8 +14,40 @@ export default function Home() {
     muscle: "",
     bodyFat: "",
   });
+
+  useEffect(() => {
+    const recentBodyData = async () => {
+      const token = sessionStorage.getItem("Authorization");
+      if (token !== null) {
+        try {
+          const res = await fetch(
+            "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/physical-infos",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (!res.ok) throw new Error("최신 신체 정보 get 실패");
+          const data = await res.json();
+
+          setBodyData({
+            height: data.height != null ? data.height.toString() : "",
+            weight: data.weight != null ? data.weight.toString() : "",
+            muscle: data.muscle != null ? data.muscle.toString() : "",
+            bodyFat: data.bodyFat != null ? data.bodyFat.toString() : "",
+          });
+        } catch (error) {
+          console.error("최신 신체 정보 get 에러:", error);
+        }
+      }
+    };
+    recentBodyData();
+  },[]);
+
+
   const inputChange = (id: string, value: string) => {
-    const numeric = value.replace(/[^0-9.]/g, "");
+    const numeric = value.replace(/[^0-9]/g, "");
     setBodyData((prev) => ({ ...prev, [id]: numeric }));
   };
 
@@ -65,7 +97,7 @@ export default function Home() {
 
   const [showChartModal, setShowChartModal] = useState(false);
   useEffect(() => {
-    const fetchLatestProfileImage = async () => {
+    const latestProfile = async () => {
       const token = sessionStorage.getItem("Authorization");
       if (!token) return;
 
@@ -78,59 +110,63 @@ export default function Home() {
         if (!res.ok) throw new Error("이미지를 불러오는 데 실패했습니다.");
         const data = await res.json();
 
-        if (data.imageUrl && typeof data.imageUrl === "string") {
-          setProfileImg(data.imageUrl);
-        } else {
-          // 이미지가 없으면 처음 이미지를 유지하도록 -> alt가 자꾸 뜨는 문제가 있어 예외처리 함
-          setProfileImg(Profile.src);
-        }
+        setProfileImg(
+          typeof data.imageUrl === "string" && data.imageUrl.trim()
+            ? data.imageUrl : Profile.src
+        );
+        // 이미지가 없으면 기본 이미지를 유지
+
       } catch (err) {
         console.error("프로필 이미지 불러오기 에러:", err);
         setProfileImg(Profile.src);
       }
     };
 
-    fetchLatestProfileImage();
+    latestProfile();
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen justify-start px-4">
       <div className="flex justify-between items-start w-full max-w-[402px] mx-auto mt-20">
         <div className="flex flex-col space-y-2 w-[60%]">
-          <p className="text-black text-lg border-b-2 border-black pb-2 mb-2">
+          <p className="text-black text-xl border-b-2 border-black pb-2 mb-2">
             나의 신체 정보
           </p>
           <BodyInput
             name="키"
             id="height"
-            placeholder="cm"
+            placeholder=""
             unit="cm"
+            value={bodyData.height}
             onChange={inputChange}
           />
           <BodyInput
             name="몸무게"
             id="weight"
-            placeholder="kg"
+            placeholder=""
             unit="kg"
+            value={bodyData.weight}
             onChange={inputChange}
           />
           <BodyInput
             name="골격근량"
             id="muscle"
-            placeholder="kg"
+            placeholder=""
             unit="kg"
+            value={bodyData.muscle}
             onChange={inputChange}
           />
           <BodyInput
             name="체지방률"
             id="bodyFat"
-            placeholder="%"
+            placeholder=""
             unit="%"
+            value={bodyData.bodyFat}
             onChange={inputChange}
           />
           <button
             onClick={saveLogic}
-            className="border-2 border-black w-full mt-4 py-2 text-sm md:text-base"
+            className="font-bold border-2 border-black rounded-lg w-full mt-4 py-2 md:text-base"
           >
             수정하기
           </button>
@@ -151,21 +187,19 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-end w-full px-4 mt-6">
-        <button
-          onClick={() => setShowChartModal(true)}
-          className="fixed bottom-20 right-4 px-5 py-3 bg-cyan-500 text-black rounded z-50"
-        >
-          내 몸의 변화보기
-        </button>
-      </div>
+      <button
+        onClick={() => setShowChartModal(true)}
+        className="fixed bottom-20 right-4 px-5 py-3 bg-cyan-500 text-black rounded z-50"
+      >
+        내 몸의 변화보기
+      </button>
 
       {showChartModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white w-[90%] max-w-5xl p-6 rounded-lg relative">
+          <div className="bg-white w-[90%] max-w-5xl pt-[50px] pr-[20px] pb-[20px] rounded-lg relative">
             <button
               onClick={() => setShowChartModal(false)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl"
+              className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl"
             >
               ✖
             </button>

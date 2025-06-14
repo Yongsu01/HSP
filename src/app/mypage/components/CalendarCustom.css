@@ -1,23 +1,22 @@
 
 .rdp-day {
-    padding: 20px 0 !important;   /*위아래 패딩을 키워서 높이 늘림*/
-    height: 60px !important;      /*최소 높이*/
+    padding: 20px 0 !important;
+    height: 60px !important;
     line-height: 60px !important;
     font-size: 1.1rem;
   }
   
-  /*선택된 날짜 크기*/
+  /*선택된 날짜*/
   .rdp-day_selected, .rdp-day_selected:focus {
     height: 60px !important;
     line-height: 60px !important;
   }
   
-  /* 월 달력 전부에 여백 줌 -> 세로로 더 늘리려면 값 늘리면 되고, 현재는 선택한 날짜에 운동 뽑아낼거라 더 늘리지 않기!*/
   .rdp {
     padding-bottom: 40px;
   }
   
-  /*캘린더의 주 헤더 글씨 크기 지정해둔거*/
+  /*캘린더의 주 헤더 글씨 크기*/
   .rdp-caption_label, .rdp-head_cell {
     font-size: 1.1rem;
   }

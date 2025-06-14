@@ -23,7 +23,7 @@ const Item = ({ name, imageurl }: ItemProps) => {
       onClick={handleClick}
     >
       <img className="w-[60%] aspect-square rounded-lg" src={imageurl}/>
-      <h3>{name}</h3>
+      <h3 className="mt-1 text-white font-semibold">{name}</h3>
     </div>
   );
 };
