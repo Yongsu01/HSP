@@ -39,7 +39,7 @@ const OAuthLogin = () => {
 
   async function getPrintCode(code: string) {
 
-    const res = await axios.post("http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080/auth/login/kakao",null,
+    const res = await axios.post("https://hanseifitu.shop/auth/login/kakao",null,
       {params: {code:code}}
     );
     

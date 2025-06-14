@@ -14,7 +14,7 @@ export default function ProfileHistory({ onClose, onImageChange }: ProfileHistor
   const [historyImages, setHistoryImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const API_BASE = "http://ec2-3-35-143-24.ap-northeast-2.compute.amazonaws.com:8080";
+  const API_BASE = "https://hanseifitu.shop";
 
   useEffect(() => {
     const fetchHistory = async () => {
